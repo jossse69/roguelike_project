@@ -1,21 +1,25 @@
 // main.rs
 
 mod entity;
-mod player;  // Import the player module
+mod player;
+mod ui;  // Import the ui module
 
 use bracket_lib::{prelude::*, color};
 use entity::Entity;
-use player::Player;  // Import the Player struct
+use player::Player;
+use ui::UI;  // Import the UI struct
 
 struct State {
-    player: Player,  // Use Player for the player character
+    player: Player,
+    ui: UI,  // Include the UI in the State
     // Add more entities here as needed
 }
 
 impl State {
     fn new() -> Self {
         State {
-            player: Player::new(40, 25),  // Initialize the player character
+            player: Player::new(40, 25),
+            ui: UI::new(),  // Initialize the UI
             // Initialize other entities here
         }
     }
@@ -27,14 +31,12 @@ impl GameState for State {
             ctx.quitting = true;
         }
 
-        ctx.cls();
-
-        // Draw the player character
-        self.player.draw(ctx);
-        // Draw other entities here
-
-        // Update the player character
         self.player.update(ctx);
+        ctx.cls();
+        self.ui.add_message("Hello world!");
+        self.player.draw(ctx);
+        self.ui.draw(ctx);  // Draw the UI
+        // Draw other entities here
     }
 }
 
