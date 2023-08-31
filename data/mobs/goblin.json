@@ -1,0 +1,13 @@
+{
+    "name": "Goblin",
+    "hp": 25,
+    "attack": 3,
+    "defense": 1,
+    "speed": 5,
+    "description": "a goblin, its has a stone knife and leaf skirt, he is green, and he very angry at you for being in his home",
+    "visuals":{
+        "glyph": "G",
+        "color":[0, 185, 0]
+    }
+}
+  
