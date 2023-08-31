@@ -35,7 +35,7 @@ impl GameState for State {
         ctx.cls();
         self.ui.add_message("Hello world!");
         self.player.draw(ctx);
-        self.ui.draw(ctx);  // Draw the UI
+        self.ui.draw(ctx, &self.player);  // Draw the UI
         // Draw other entities here
     }
 }

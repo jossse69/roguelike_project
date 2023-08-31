@@ -5,13 +5,15 @@ use crate::entity::Entity;
 
 pub struct Player {
     entity: Entity,
-    // Add player-specific fields here
+    pub hp: i32,
+    pub max_hp: i32,
+    pub score: i32,
 }
 
 impl Player {
     pub fn new(x: i32, y: i32) -> Self {
         let entity = Entity::new(x, y, to_cp437('@'), YELLOW, BLACK);
-        Player { entity }
+        Player { entity, hp: 100, max_hp: 100, score: 0 }
     }
 
     pub fn draw(&self, ctx: &mut BTerm) {

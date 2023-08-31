@@ -2,6 +2,8 @@
 
 use bracket_lib::prelude::*;
 
+use crate::player::Player;
+
 const MESSAGE_LOG_MAX_LINES: usize = 5; // Maximum lines in the message log
 
 pub struct UI {
@@ -25,7 +27,7 @@ impl UI {
         }
     }
 
-    pub fn draw(&self, ctx: &mut BTerm) {
+    pub fn draw(&self, ctx: &mut BTerm, player: &Player) {
         // Draw message log with background
         ctx.draw_box(
             0,
@@ -43,7 +45,7 @@ impl UI {
         ctx.draw_box(
             0,
             0,
-            17,
+            27,
             3,
             RGB::named(WHITE),
             RGB::named(BLACK),
@@ -55,6 +57,19 @@ impl UI {
             RGB::named(BLACK),
             "Player Stats:",
         );
-        // Add player stats here
+        ctx.print_color(
+            1,
+            2,
+            RGB::named(GREEN2),
+            RGB::named(BLACK),
+            format!("HP: {}/{}", player.hp, player.max_hp),
+        );
+        ctx.print_color(
+            14,
+            2,
+            RGB::named(GOLD),
+            RGB::named(BLACK),
+            format!("score: {}", player.score),
+        );
     }
 }
