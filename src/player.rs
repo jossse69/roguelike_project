@@ -2,7 +2,7 @@
 
 use bracket_lib::prelude::*;
 use crate::entity::Entity;
-
+use crate::map::Map;
 pub struct Player {
     entity: Entity,
     pub hp: i32,
@@ -13,7 +13,7 @@ pub struct Player {
 impl Player {
     pub fn new(x: i32, y: i32) -> Self {
         let entity = Entity::new(x, y, to_cp437('@'), YELLOW, BLACK);
-        Player { entity, hp: 100, max_hp: 100, score: 0 }
+        Player { entity, hp: 100, max_hp: 100, score: 0}
     }
 
     pub fn draw(&self, ctx: &mut BTerm) {

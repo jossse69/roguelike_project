@@ -1,0 +1,12 @@
+{
+    "name": "Zombie",
+    "hp": 40,
+    "attack": 4,
+    "defense": 3,
+    "speed": 1,
+    "description": "A lumbering zombie, hungry for human flesh. its filled with wounds and gore, very disgusting!",
+    "visuals": {
+        "glyph": "Z",
+        "color": [0, 128, 0]
+    }
+}

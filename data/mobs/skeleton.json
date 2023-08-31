@@ -1,0 +1,12 @@
+{
+    "name": "Skeleton",
+    "hp": 30,
+    "attack": 5,
+    "defense": 2,
+    "speed": 3,
+    "description": "A reanimated skeleton with a rusty sword. you can see faint red glow in its eyes. looks dengerous.",
+    "visuals": {
+        "glyph": "S",
+        "color": [192, 192, 192]
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "name": "Slime",
+    "hp": 20,
+    "attack": 2,
+    "defense": 1,
+    "speed": 1,
+    "description": "A gooey and bouncing slime creature. basically: a acidic bolb of green slime",
+    "visuals": {
+        "glyph": "O",
+        "color": [0, 255, 0]
+    }
+}
