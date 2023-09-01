@@ -1,0 +1,14 @@
+{
+    "name": "Milk",
+    "type": "drink",
+    "value": 5,
+    "description": "Fresh and creamy milk.",
+    "visuals": {
+        "glyph": "D",
+        "color": [255, 255, 255]
+    },
+    "onuse": {
+        "type": "thirst",
+        "thirst_quenching": 15
+    }
+}

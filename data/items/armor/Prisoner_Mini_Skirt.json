@@ -1,0 +1,14 @@
+{
+    "name": "Prisoner Mini Skirt",
+    "type": "armor",
+    "value": 15,
+    "description": "A tattered and uncomfortable mini skirt.",
+    "visuals": {
+        "glyph": "A",
+        "color": [139, 69, 19]
+    },
+    "onuse": {
+        "type": "protection",
+        "protection_value": 10
+    }
+}

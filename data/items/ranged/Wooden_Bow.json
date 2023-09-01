@@ -1,0 +1,15 @@
+{
+    "name": "Wooden Bow",
+    "type": "ranged",
+    "value": 30,
+    "description": "A simple wooden bow for firing arrows.",
+    "visuals": {
+        "glyph": "B",
+        "color": [139, 69, 19]
+    },
+    "onuse": {
+        "type": "shoot",
+        "ammo_type": "arrow",
+        "damage": 20
+    }
+}

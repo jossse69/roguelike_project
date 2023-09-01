@@ -1,0 +1,15 @@
+{
+    "name": "The Bible",
+    "type": "book",
+    "value": 10,
+    "description": "A holy book filled with ancient wisdom.",
+    "visuals": {
+        "glyph": "B",
+        "color": [255, 255, 0]
+    },
+    "onuse": {
+        "type": "spell",
+        "spell_name": "Blessing",
+        "effect": "Heals the user and provides protection."
+    }
+}
