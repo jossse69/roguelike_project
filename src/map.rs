@@ -3,18 +3,20 @@
 use bracket_lib::prelude::*;
 
 pub struct Map {
-    tiles: Vec<TileType>,
-    width: i32,
-    height: i32,
+    pub tiles: Vec<TileType>,
+    pub width: i32,
+    pub height: i32,
+    pub rooms: Vec<Rect>, // Add a vector to store rooms
 }
 
 impl Map {
     pub fn new(width: i32, height: i32) -> Self {
-        let tiles = vec![TileType::Floor; (width * height) as usize];
+        let tiles = vec![TileType::Wall; (width * height) as usize];
         Map {
             tiles,
             width,
             height,
+            rooms: Vec::new(), // Initialize the rooms vector
         }
     }
 
@@ -27,11 +29,15 @@ impl Map {
                         ctx.set(x, y, DARKGREY, BLACK, to_cp437('.'));
                     }
                     TileType::Wall => {
-                        ctx.set(x, y, WHITESMOKE, BLACK, to_cp437('#'));
+                        ctx.set(x, y, LIGHTSLATEGRAY, BLACK, to_cp437('#'));
                     }
                 }
             }
         }
+    }
+
+    pub fn get_tile(&self, x: i32, y: i32) -> TileType {
+        self.tiles[map_idx(x, y)]
     }
 }
 

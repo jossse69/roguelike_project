@@ -2,7 +2,7 @@
 
 use bracket_lib::prelude::*;
 use crate::entity::Entity;
-use crate::map::Map;
+use crate::map::{Map, self, TileType};
 pub struct Player {
     entity: Entity,
     pub hp: i32,
@@ -20,24 +20,30 @@ impl Player {
         self.entity.draw(ctx);
     }
 
-    pub fn update(&mut self, ctx: &mut BTerm) {
+    pub fn update(&mut self, ctx: &mut BTerm, map: &Map) {
         // Handle player movement
         if let Some(key) = ctx.key {
             match key {
-                VirtualKeyCode::Numpad8 => self.move_by(0, -1),
-                VirtualKeyCode::Numpad2 => self.move_by(0, 1),
-                VirtualKeyCode::Numpad4 => self.move_by(-1, 0),
-                VirtualKeyCode::Numpad6 => self.move_by(1, 0),
-                VirtualKeyCode::Numpad7 => self.move_by(-1, -1),
-                VirtualKeyCode::Numpad9 => self.move_by(1, -1),
-                VirtualKeyCode::Numpad1 => self.move_by(-1, 1),
-                VirtualKeyCode::Numpad3 => self.move_by(1, 1),
+                VirtualKeyCode::Numpad8 => self.move_by(0, -1, map),
+                VirtualKeyCode::Numpad2 => self.move_by(0, 1, map),
+                VirtualKeyCode::Numpad4 => self.move_by(-1, 0, map),
+                VirtualKeyCode::Numpad6 => self.move_by(1, 0, map),
+                VirtualKeyCode::Numpad7 => self.move_by(-1, -1, map),
+                VirtualKeyCode::Numpad9 => self.move_by(1, -1, map),
+                VirtualKeyCode::Numpad1 => self.move_by(-1, 1, map),
+                VirtualKeyCode::Numpad3 => self.move_by(1, 1, map),
                 _ => {}
             }
         }
     }
 
-    fn move_by(&mut self, dx: i32, dy: i32) {
+    fn move_by(&mut self, dx: i32, dy: i32, map: &Map) {
+        //wall at were moving, dont move
+        if map.get_tile(self.entity.x + dx, self.entity.y + dy) == TileType::Wall {
+            return;
+        }
+
+        // Move by the given amount
         self.entity.x += dx;
         self.entity.y += dy;
     }

@@ -1,41 +1,42 @@
-// main.rs
-
 mod entity;
 mod player;
-mod ui;  // Import the ui module
+mod ui;
 mod mobs;
-mod map;  // Import the map module
+mod map;
+mod progen;  // Import the progen module
 
 use bracket_lib::{prelude::*, color};
 use entity::Entity;
 use mobs::Mob;
 use player::Player;
-use ui::UI;  // Import the UI struct
-use map::{Map, TileType};  // Import the Map struct and TileType enum
+use ui::UI;
+use map::{Map, TileType};
 
 struct State {
     player: Player,
-    ui: UI,  // Include the UI in the State
-    mobs: Vec<Mob>,  // Add a vector to store mobs
-    map: Map,  // Add the map
-    // Add more entities here as needed
+    ui: UI,
+    mobs: Vec<Mob>,
+    map: Map,
 }
 
 impl State {
     fn new() -> Self {
         let mut mobs = Vec::new();
 
-        // Create and add mobs here
         if let Ok(goblin) = Mob::new(20, 10, "data/mobs/goblin.json") {
             mobs.push(goblin);
         }
 
+        let mut map = Map::new(map::SCREEN_WIDTH as i32, map::SCREEN_HEIGHT as i32);
+        
+        // Generate the dungeon map
+        progen::generate_dungeon(&mut map);
+
         State {
             player: Player::new(40, 25),
-            ui: UI::new(),  // Initialize the UI
+            ui: UI::new(),
             mobs,
-            map: Map::new(map::SCREEN_WIDTH as i32, map::SCREEN_HEIGHT as i32),  // Initialize the map
-            // Initialize other entities here
+            map,
         }
     }
 }
@@ -46,20 +47,19 @@ impl GameState for State {
             ctx.quitting = true;
         }
 
-        self.player.update(ctx);
+        self.player.update(ctx, &mut self.map);
         ctx.cls();
         self.ui.add_message("Hello world!");
 
-        self.map.render(ctx);  // Render the map
+        self.map.render(ctx);
 
         self.player.draw(ctx);
 
         for mob in &self.mobs {
-            mob.draw(ctx);  // Draw mobs
+            mob.draw(ctx);
         }
 
-        self.ui.draw(ctx, &self.player);  // Draw the UI
-        // Draw other entities here
+        self.ui.draw(ctx, &self.player);
     }
 }
 
