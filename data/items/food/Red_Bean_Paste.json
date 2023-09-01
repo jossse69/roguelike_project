@@ -1,12 +1,8 @@
 {
     "name": "Red Bean Paste",
-    "type": "food",
+    "itemtype": "food",
     "value": 5,
     "description": "A sweet and nutritious red bean paste.",
-    "visuals": {
-        "glyph": "F",
-        "color": [255, 0, 0]
-    },
     "onuse": {
         "type": "hunger",
         "hunger_restoration": 20
