@@ -48,7 +48,7 @@ impl State {
         }
 
         // Create the Milk item and add it to the items vector
-        let milk = Item::new(player_loc.x, player_loc.y, "data/items/drink/Milk.json").unwrap();
+        let milk = Item::new(10, 10, "data/items/drink/Milk.json").unwrap();
         let mut items = Vec::new();
         items.push(milk);
 

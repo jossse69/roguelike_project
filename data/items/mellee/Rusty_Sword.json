@@ -1,12 +1,8 @@
 {
     "name": "Rusty Sword",
-    "type": "melee",
+    "itemtype": "melee",
     "value": 20,
     "description": "A worn and rusty sword, but it can still cut.",
-    "visuals": {
-        "glyph": "S",
-        "color": [128, 128, 128]
-    },
     "onuse": {
         "type": "damage",
         "damage": 15

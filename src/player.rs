@@ -8,12 +8,14 @@ pub struct Player {
     pub hp: i32,
     pub max_hp: i32,
     pub score: i32,
+    pub hunger: i32,
+    pub thirst: i32
 }
 
 impl Player {
     pub fn new(x: i32, y: i32) -> Self {
         let entity = Entity::new(x, y, to_cp437('@'), YELLOW, BLACK);
-        Player { entity, hp: 100, max_hp: 100, score: 0}
+        Player { entity, hp: 100, max_hp: 100, score: 0, hunger: 100, thirst: 100 }
     }
 
     pub fn draw(&self, ctx: &mut BTerm) {

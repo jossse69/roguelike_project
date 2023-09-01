@@ -45,7 +45,7 @@ impl UI {
         ctx.draw_box(
             0,
             0,
-            27,
+            47,
             3,
             RGB::named(WHITE),
             RGB::named(BLACK),
@@ -65,11 +65,25 @@ impl UI {
             format!("HP: {}/{}", player.hp, player.max_hp),
         );
         ctx.print_color(
-            14,
+            13,
             2,
             RGB::named(GOLD),
             RGB::named(BLACK),
             format!("score: {}", player.score),
+        );
+        ctx.print_color(
+            22,
+            2,
+            RGB::named(WHEAT),
+            RGB::named(BLACK),
+            format!("hunger: {}", player.hunger),
+        );
+        ctx.print_color(
+            34,
+            2,
+            RGB::named(CYAN),
+            RGB::named(BLACK),
+            format!("thirst: {}", player.thirst),
         );
     }
 }

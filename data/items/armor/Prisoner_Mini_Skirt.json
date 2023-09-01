@@ -1,6 +1,6 @@
 {
     "name": "Prisoner Mini Skirt",
-    "type": "armor",
+    "itemtype": "armor",
     "value": 15,
     "description": "A tattered and uncomfortable mini skirt.",
     "visuals": {

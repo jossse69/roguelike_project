@@ -10,15 +10,10 @@ pub struct ItemData {
     pub name: String,
     pub value: i32,
     pub description: String,
-    pub visuals: Visuals,
     pub onuse: Option<OnUse>,
+    pub itemtype: String,
 }
 
-#[derive(Debug, Deserialize)]
-pub struct Visuals {
-    pub glyph: char,
-    pub color: (u8, u8, u8),
-}
 
 #[derive(Debug, Deserialize)]
 pub struct OnUse {
@@ -39,7 +34,19 @@ impl Item {
     pub fn new(x: i32, y: i32, filename: &str) -> Result<Self, Box<dyn Error>> {
         let contents = fs::read_to_string(filename)?;
         let data: ItemData = serde_json::from_str(&contents)?;
-        let entity = Entity::new(x, y, data.visuals.glyph as FontCharType, data.visuals.color, BLACK);
+
+        //let glyph dependent on the item type on item data
+        let glyph = match data.itemtype.as_str() {
+            "armor" => to_cp437('+'),
+            "book" => to_cp437('&'),
+            "food" => to_cp437('*'),
+            "drink" => to_cp437('-'),
+            "mellee" => to_cp437('!'),
+            "ranged" => to_cp437(':'),
+            _ => to_cp437(' '),
+        };
+
+        let entity = Entity::new(x, y, glyph as FontCharType, GOLD, BLACK);
 
         Ok(Item { entity, data })
     }
