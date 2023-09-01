@@ -31,6 +31,12 @@ impl Map {
                     TileType::Wall => {
                         ctx.set(x, y, LIGHTSLATEGRAY, BLACK, to_cp437('#'));
                     }
+                    TileType::UpStairs => {
+                        ctx.set(x, y, ORANGE, BLACK, to_cp437('^'));	
+                    }
+                    TileType::DownStairs => {
+                        ctx.set(x, y, ORANGE, BLACK, to_cp437('v'));
+                    }
                 }
             }
         }
@@ -52,4 +58,6 @@ pub const SCREEN_HEIGHT: usize = 50;
 pub enum TileType {
     Wall,
     Floor,
+    UpStairs,
+    DownStairs,
 }

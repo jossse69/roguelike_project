@@ -20,11 +20,14 @@ pub fn generate_dungeon(map: &mut Map) {
     }
 
     // Create corridors
-    for i in 0..19 {
+    for i in 0..map.rooms.len() - 1 {
         let (x1, y1) = calculate_center(&map.rooms[i]);
         let (x2, y2) = calculate_center(&map.rooms[i + 1]);
         create_corridor(map, x1, y1, x2, y2);
     }
+
+    // Add stairs
+    add_stairs(map);
 
 }
 
@@ -72,6 +75,23 @@ fn create_corridor(map: &mut Map, x1: i32, y1: i32, x2: i32, y2: i32) {
         }
     }
 }
+
+pub fn add_stairs(map: &mut Map) {
+    let mut rng = RandomNumberGenerator::new();
+
+    let idx1 = rng.range(0, map.rooms.len());
+    let idx2 = rng.range(0, map.rooms.len());
+
+    let (x1, y1) = calculate_center(&map.rooms[idx1]);
+    let (x2, y2) = calculate_center(&map.rooms[idx2]);
+
+    let idx1_center = map_idx(x1, y1);
+    let idx2_center = map_idx(x2, y2);
+
+    map.tiles[idx1_center] = TileType::UpStairs;
+    map.tiles[idx2_center] = TileType::DownStairs;
+}
+
 
 fn map_idx(x: i32, y: i32) -> usize {
     (y as usize * SCREEN_WIDTH) + x as usize

@@ -10,7 +10,7 @@ use entity::Entity;
 use mobs::Mob;
 use player::Player;
 use ui::UI;
-use map::{Map, TileType};
+use map::{Map, TileType, SCREEN_WIDTH};
 
 struct State {
     player: Player,
@@ -32,8 +32,18 @@ impl State {
         // Generate the dungeon map
         progen::generate_dungeon(&mut map);
 
+        // fint the up stairs to place player
+        let mut player_loc = Point::new(0, 0);
+        for i in 0..map.tiles.len() {
+            if map.tiles[i] == TileType::UpStairs {
+                player_loc.x = i as i32 % map.width;
+                player_loc.y = i as i32 / map.width;
+                break;
+            }
+        }
+
         State {
-            player: Player::new(40, 25),
+            player: Player::new(player_loc.x, player_loc.y),
             ui: UI::new(),
             mobs,
             map,
@@ -52,12 +62,11 @@ impl GameState for State {
         self.ui.add_message("Hello world!");
 
         self.map.render(ctx);
-
-        self.player.draw(ctx);
-
+        
         for mob in &self.mobs {
             mob.draw(ctx);
         }
+        self.player.draw(ctx);
 
         self.ui.draw(ctx, &self.player);
     }
