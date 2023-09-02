@@ -22,7 +22,7 @@ cargo run
 
 ## Controls
 use mumberpad to move <br>
-press E to open the inventory
+press E to open the inventory <br>
 *more controls to come*
 
 ## Contributing
