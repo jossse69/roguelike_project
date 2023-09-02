@@ -1,14 +1,13 @@
 // ui.rs
 
 use bracket_lib::prelude::*;
-
 use crate::player::Player;
 
 const MESSAGE_LOG_MAX_LINES: usize = 5; // Maximum lines in the message log
 
 pub struct UI {
-    pub message_log: Vec<String>,
-    pub popup_windows: Vec<PopupWindow>,
+    message_log: Vec<String>,
+    popup_windows: Vec<PopupWindow>,
 }
 
 impl UI {
@@ -108,7 +107,6 @@ impl UI {
         // Draw popup windows
         self.draw_popups(ctx);
     }
-
 }
 
 pub struct PopupWindow {
@@ -141,7 +139,7 @@ impl PopupWindow {
     }
 
     pub fn draw(&self, ctx: &mut BTerm) {
-        // Draw popup window background
+        // Draw the popup window background
         ctx.draw_box(
             self.x,
             self.y,
@@ -151,13 +149,18 @@ impl PopupWindow {
             RGB::named(BLACK),
         );
 
-        // Draw popup window title
-        ctx.print(self.x + 1, self.y + 1, &self.title);
+        // Draw the title
+        ctx.print_color(
+            self.x + 1,
+            self.y,
+            RGB::named(WHITE),
+            RGB::named(BLACK),
+            &self.title,
+        );
 
-        // Draw popup window content
-        for (i, line) in self.content.iter().enumerate() {
-            ctx.print(self.x + 3, self.y + 4 + i as i32, line);
+        // Draw content within the window
+        for (i, content) in self.content.iter().enumerate() {
+            ctx.print(self.x + 1, self.y + 1 + i as i32, content);
         }
-
     }
 }

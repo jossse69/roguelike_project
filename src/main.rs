@@ -7,6 +7,7 @@ mod mobs;
 mod map;
 mod progen;
 mod item;  // Import the item module
+mod ui_component;
 
 use bracket_lib::{prelude::*, color};
 use entity::Entity;
@@ -68,7 +69,7 @@ impl GameState for State {
             ctx.quitting = true;
         }
 
-        self.player.update(ctx, &mut self.map);
+        self.player.update(ctx, &mut self.map, &mut self.ui);
         ctx.cls();
         self.ui.add_message("Hello world!");
 
