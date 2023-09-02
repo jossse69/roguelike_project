@@ -6,7 +6,8 @@ use std::error::Error;
 use std::fs;
 use crate::entity::Entity;
 use crate::map::Map;
-#[derive(Debug, Deserialize)]
+use crate::ui::{self, PopupWindow, UI};
+#[derive(Debug, Deserialize, Clone)]
 pub struct ItemData {
     pub name: String,
     pub value: i32,
@@ -16,7 +17,7 @@ pub struct ItemData {
 }
 
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 pub struct OnUse {
     pub r#type: String,
     #[serde(default)]
@@ -26,6 +27,7 @@ pub struct OnUse {
     // Add other possible effects here
 }
 
+#[derive(Clone)]
 pub struct Item {
     pub entity: Entity,
     pub data: ItemData,
@@ -54,6 +56,18 @@ impl Item {
 
     pub fn draw(&self, ctx: &mut BTerm, map: &Map) {
         self.entity.draw(ctx, map);
+    }
+
+    pub fn inspect(&self, ctx: &mut BTerm, ui: &mut UI) {
+        // Create a new popup window
+        let mut popup = PopupWindow::new(20, 10, 40, 20, "Item Description");
+    
+        // Add the item's description to the popup window content
+        popup.add_content(&self.data.description);
+    
+        // Add the popup window to the UI
+        ui.create_popup(20, 10, 40, 20, "Item Description");
+        ui.popup_windows.push(popup);
     }
 
     // Implement item-specific methods here

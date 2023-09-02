@@ -2,6 +2,8 @@
 
 use bracket_lib::prelude::*;
 use crate::map::Map;
+
+#[derive(Debug, Clone)]
 pub struct Entity {
     pub x: i32,
     pub y: i32,

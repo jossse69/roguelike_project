@@ -1,7 +1,4 @@
-// ui.rs
-
 use bracket_lib::prelude::*;
-
 use crate::player::Player;
 
 const MESSAGE_LOG_MAX_LINES: usize = 5; // Maximum lines in the message log
@@ -9,6 +6,7 @@ const MESSAGE_LOG_MAX_LINES: usize = 5; // Maximum lines in the message log
 pub struct UI {
     pub message_log: Vec<String>,
     pub popup_windows: Vec<PopupWindow>,
+    pub active_popup: Option<usize>, // Track the index of the active popup, if any
 }
 
 impl UI {
@@ -16,6 +14,7 @@ impl UI {
         UI {
             message_log: Vec::new(),
             popup_windows: Vec::new(),
+            active_popup: None,
         }
     }
 
@@ -32,21 +31,38 @@ impl UI {
     pub fn create_popup(&mut self, x: i32, y: i32, width: i32, height: i32, title: &str) {
         let popup = PopupWindow::new(x, y, width, height, title);
         self.popup_windows.push(popup);
+
+        // Set the active popup to the newly created one
+        self.active_popup = Some(self.popup_windows.len() - 1);
     }
 
-    pub fn update_popup_title(&mut self, index: usize, title: &str) {
-        if let Some(popup) = self.popup_windows.get_mut(index) {
-            popup.update_title(title);
+    pub fn remove_active_popup(&mut self) {
+        if let Some(active_popup_index) = self.active_popup {
+            self.popup_windows.remove(active_popup_index);
+            self.active_popup = None;
         }
     }
 
-    pub fn draw_popups(&self, ctx: &mut BTerm) {
-        for popup in &self.popup_windows {
-            popup.draw(ctx);
+
+    pub fn remove_popup(&mut self, index: usize) {
+        self.popup_windows.remove(index);
+
+        // Reset the active popup to None if the removed popup was the active one
+        if let Some(active_popup_index) = self.active_popup {
+            if index == active_popup_index {
+                self.active_popup = None;
+            }
         }
     }
 
-    pub fn draw(&self, ctx: &mut BTerm, player: &Player) {
+    pub fn draw(&mut self, ctx: &mut BTerm, player: &Player) {
+        // Handle player input to close the active popup on "Escape" key press
+        if ctx.key == Some(VirtualKeyCode::Escape) {
+            if let Some(active_popup_index) = self.active_popup {
+                self.remove_active_popup();
+            }
+        }
+
         // Draw message log with background
         ctx.draw_box(
             0,
@@ -106,9 +122,10 @@ impl UI {
         );
 
         // Draw popup windows
-        self.draw_popups(ctx);
+        for popup in &self.popup_windows {
+            popup.draw(ctx);
+        }
     }
-
 }
 
 pub struct PopupWindow {
@@ -136,10 +153,6 @@ impl PopupWindow {
         self.content.push(content.to_string());
     }
 
-    pub fn update_title(&mut self, title: &str) {
-        self.title = title.to_string();
-    }
-
     pub fn draw(&self, ctx: &mut BTerm) {
         // Draw popup window background
         ctx.draw_box(
@@ -158,6 +171,5 @@ impl PopupWindow {
         for (i, line) in self.content.iter().enumerate() {
             ctx.print(self.x + 3, self.y + 4 + i as i32, line);
         }
-
     }
 }

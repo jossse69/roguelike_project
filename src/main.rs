@@ -65,9 +65,6 @@ impl State {
 
 impl GameState for State {
     fn tick(&mut self, ctx: &mut BTerm) {
-        if let Some(VirtualKeyCode::Escape) = ctx.key {
-            ctx.quitting = true;
-        }
 
         self.player.update(ctx, &mut self.map, &mut self.ui);
         self.map.update_fov(self.player.entity.x, self.player.entity.y);

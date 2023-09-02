@@ -14,6 +14,7 @@ pub struct Player {
     pub hunger: i32,
     pub thirst: i32,
     pub inventory: Vec<Item>,
+    pub selected_item: Option<usize>, // Track the selected inventory item
 }
 
 impl Player {
@@ -21,9 +22,10 @@ impl Player {
         let entity = Entity::new(x, y, to_cp437('@'), YELLOW, BLACK);
         let mut inv = Vec::new();
 
-        //push some items to the inventory
+        // Push some items to the inventory
         inv.push(Item::new(0, 0, "data/items/drink/Milk.json").unwrap());
         inv.push(Item::new(0, 0, "data/items/books/The_Bible.json").unwrap());
+
         Player {
             entity,
             hp: 100,
@@ -32,10 +34,11 @@ impl Player {
             hunger: 100,
             thirst: 100,
             inventory: inv,
+            selected_item: Some(0), // Select the first item by default
         }
     }
 
-    pub fn draw(&self, ctx: &mut BTerm,map: &Map) {
+    pub fn draw(&self, ctx: &mut BTerm, map: &Map) {
         self.entity.draw(ctx, map);
     }
 
@@ -52,11 +55,13 @@ impl Player {
                 VirtualKeyCode::Numpad1 => self.move_by(-1, 1, map),
                 VirtualKeyCode::Numpad3 => self.move_by(1, 1, map),
                 VirtualKeyCode::E => self.open_inventory(ui),
+                // Add more keybindings for item selection and inspection
+                VirtualKeyCode::Up => self.select_previous_item(),
+                VirtualKeyCode::Down => self.select_next_item(),
+                VirtualKeyCode::I => self.inspect_selected_item(ui, ctx),
                 _ => {}
             }
         }
-
-        // update fov
     }
 
     fn move_by(&mut self, dx: i32, dy: i32, map: &Map) {
@@ -70,7 +75,7 @@ impl Player {
         self.entity.y += dy;
     }
 
-    fn open_inventory(&self, ui: &mut UI) {
+    fn open_inventory(&mut self, ui: &mut UI) {
         let mut inventory_popup = PopupWindow::new(10, 10, 40, 20, "Inventory");
 
         // Add inventory items to the popup content
@@ -78,6 +83,33 @@ impl Player {
             inventory_popup.add_content(&item.data.name);
         }
 
+        // Update the selected item to the first item in the inventory
+        self.selected_item = Some(0);
+
         ui.popup_windows.push(inventory_popup);
+    }
+
+    fn select_previous_item(&mut self) {
+        if let Some(selected_item) = self.selected_item {
+            if selected_item > 0 {
+                self.selected_item = Some(selected_item - 1);
+            }
+        }
+    }
+
+    fn select_next_item(&mut self) {
+        if let Some(selected_item) = self.selected_item {
+            if selected_item < self.inventory.len() - 1 {
+                self.selected_item = Some(selected_item + 1);
+            }
+        }
+    }
+
+    fn inspect_selected_item(&self, ui: &mut UI, ctx: &mut BTerm) {
+        if let Some(selected_item) = self.selected_item {
+            if let Some(item) = self.inventory.get(selected_item) {
+                item.inspect(ctx, ui);
+            }
+        }
     }
 }
