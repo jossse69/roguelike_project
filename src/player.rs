@@ -35,8 +35,8 @@ impl Player {
         }
     }
 
-    pub fn draw(&self, ctx: &mut BTerm) {
-        self.entity.draw(ctx);
+    pub fn draw(&self, ctx: &mut BTerm,map: &Map) {
+        self.entity.draw(ctx, map);
     }
 
     pub fn update(&mut self, ctx: &mut BTerm, map: &Map, ui: &mut UI) {

@@ -1,7 +1,7 @@
 // entity.rs
 
 use bracket_lib::prelude::*;
-
+use crate::map::Map;
 pub struct Entity {
     pub x: i32,
     pub y: i32,
@@ -21,7 +21,13 @@ impl Entity {
         }
     }
 
-    pub fn draw(&self, ctx: &mut BTerm) {
+    pub fn draw(&self, ctx: &mut BTerm, map: &Map) {
+
+        //if not on visible tile
+        if !map.get_tile_visbility(self.x, self.y) {
+            return;
+        }
+
         ctx.set(self.x, self.y, self.fg_color, self.bg_color, self.glyph);
     }
 }

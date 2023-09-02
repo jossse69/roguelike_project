@@ -3,7 +3,7 @@
 use serde::Deserialize;
 use std::fs;
 use bracket_lib::prelude::*;
-use crate::entity::Entity;  // Import the Entity struct
+use crate::{entity::Entity, map::Map};  // Import the Entity struct
 
 #[derive(Debug, Deserialize, Clone)]
 pub struct MobData {
@@ -56,8 +56,8 @@ impl Mob {
         Ok(mob)
     }
 
-    pub fn draw(&self, ctx: &mut BTerm) {
-        self.entity.draw(ctx);
+    pub fn draw(&self, ctx: &mut BTerm, map: &Map) {
+        self.entity.draw(ctx, map);
     }
 
     // Add mob-specific methods here

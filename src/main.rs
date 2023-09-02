@@ -78,14 +78,14 @@ impl GameState for State {
 
         // Draw items
         for item in &self.items {
-            item.draw(ctx);
+            item.draw(ctx, &self.map);
         }
 
         // Draw mobs
         for mob in &self.mobs {
-            mob.draw(ctx);
+            mob.draw(ctx, &self.map);
         }
-        self.player.draw(ctx);
+        self.player.draw(ctx, &self.map);
 
         
 

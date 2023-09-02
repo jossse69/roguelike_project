@@ -5,6 +5,7 @@ use serde::Deserialize;
 use std::error::Error;
 use std::fs;
 use crate::entity::Entity;
+use crate::map::Map;
 #[derive(Debug, Deserialize)]
 pub struct ItemData {
     pub name: String,
@@ -51,8 +52,8 @@ impl Item {
         Ok(Item { entity, data })
     }
 
-    pub fn draw(&self, ctx: &mut BTerm) {
-        self.entity.draw(ctx);
+    pub fn draw(&self, ctx: &mut BTerm, map: &Map) {
+        self.entity.draw(ctx, map);
     }
 
     // Implement item-specific methods here

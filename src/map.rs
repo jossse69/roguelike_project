@@ -73,6 +73,7 @@ impl BaseMap for Map {
         let pos2 = self.index_to_point2d(idx2);
         DistanceAlg::Pythagoras.distance2d(pos1, pos2)
     }
+
 }
 
 impl Map {
@@ -125,6 +126,13 @@ impl Map {
         self.tiles[map_idx(x, y)]
     }
 
+    pub fn get_tile_visbility(&self, x: i32, y: i32) -> bool {
+        self.visible_tiles[map_idx(x, y)]
+    }
+
+    pub fn set_tile_revealed(&mut self, x: i32, y: i32) {
+        self.revealed_tiles[map_idx(x, y)] = true;
+    }
     pub fn update_fov(&mut self, player_x: i32, player_y: i32) {
         let player_idx = map_idx(player_x, player_y);
         let player_pos = Point::new(player_x, player_y);
