@@ -7,7 +7,7 @@ use crate::map::{Map, self, TileType};
 use crate::ui::{UI, PopupWindow};
 
 pub struct Player {
-    entity: Entity,
+    pub entity: Entity,
     pub hp: i32,
     pub max_hp: i32,
     pub score: i32,
@@ -55,6 +55,8 @@ impl Player {
                 _ => {}
             }
         }
+
+        // update fov
     }
 
     fn move_by(&mut self, dx: i32, dy: i32, map: &Map) {

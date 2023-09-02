@@ -70,6 +70,7 @@ impl GameState for State {
         }
 
         self.player.update(ctx, &mut self.map, &mut self.ui);
+        self.map.update_fov(self.player.entity.x, self.player.entity.y);
         ctx.cls();
         self.ui.add_message("Hello world!");
 

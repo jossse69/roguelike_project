@@ -59,7 +59,7 @@ version = "0.8.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4a13fb98ac33e6cd03fc035d8503f8a80b38c523737c9f84b400a4b9e065cfd3"
 dependencies = [
- "bracket-geometry",
+ "bracket-geometry 0.8.7",
  "smallvec",
 ]
 
@@ -85,11 +85,20 @@ dependencies = [
 
 [[package]]
 name = "bracket-geometry"
+version = "0.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5b198839a12c01f6b94e1b0cf89f214055415d16713bb6b1711ddf412a2f9410"
+dependencies = [
+ "ultraviolet 0.4.6",
+]
+
+[[package]]
+name = "bracket-geometry"
 version = "0.8.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0f31b525fcd65027885f3a1e3a250a5dd397d70de4a6a5a125f03e0bef951499"
 dependencies = [
- "ultraviolet",
+ "ultraviolet 0.9.1",
 ]
 
 [[package]]
@@ -100,7 +109,7 @@ checksum = "43bbe13e39628e7f73673737c825001494dee7329cee8ee79dfeaa7cfd136dbf"
 dependencies = [
  "bracket-algorithm-traits",
  "bracket-color",
- "bracket-geometry",
+ "bracket-geometry 0.8.7",
  "bracket-noise",
  "bracket-pathfinding",
  "bracket-random",
@@ -123,7 +132,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "32ae7f2ebf242316ba10e84ca3b31af064b8c0c77402b2171a3104a2a77718fc"
 dependencies = [
  "bracket-algorithm-traits",
- "bracket-geometry",
+ "bracket-geometry 0.8.7",
  "num-rational",
  "smallvec",
 ]
@@ -164,7 +173,7 @@ dependencies = [
  "anyhow",
  "bracket-color",
  "bracket-embedding",
- "bracket-geometry",
+ "bracket-geometry 0.8.7",
  "bracket-rex",
  "console_error_panic_hook",
  "glow",
@@ -174,7 +183,7 @@ dependencies = [
  "object-pool",
  "parking_lot 0.12.1",
  "rand",
- "ultraviolet",
+ "ultraviolet 0.9.1",
  "wasm-bindgen",
  "wasm-timer",
  "web-sys",
@@ -1377,6 +1386,7 @@ checksum = "dbb5fb1acd8a1a18b3dd5be62d25485eb770e05afb408a9627d14d451bae12da"
 name = "roguelike_project"
 version = "0.1.0"
 dependencies = [
+ "bracket-geometry 0.7.0",
  "bracket-lib",
  "crossbeam-utils 0.8.16",
  "rand",
@@ -1682,11 +1692,20 @@ dependencies = [
 
 [[package]]
 name = "ultraviolet"
+version = "0.4.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "432f35260aff6ee992f3027a1166eaebd7c6ebc0844188b0e545f7fa2121daf7"
+dependencies = [
+ "wide 0.4.6",
+]
+
+[[package]]
+name = "ultraviolet"
 version = "0.9.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ca0b28b9a6ce66d47e3c5666aa738c5ec5223fcdd4c263f3edc98ab6fef618b3"
 dependencies = [
- "wide",
+ "wide 0.7.11",
 ]
 
 [[package]]
@@ -1872,6 +1891,15 @@ checksum = "9b85cbef8c220a6abc02aefd892dfc0fc23afb1c6a426316ec33253a3877249b"
 dependencies = [
  "js-sys",
  "wasm-bindgen",
+]
+
+[[package]]
+name = "wide"
+version = "0.4.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5825a3b8b18b67af1c24165f8ae1feb8f691222736d14099c3483effed2ea729"
+dependencies = [
+ "bytemuck",
 ]
 
 [[package]]
