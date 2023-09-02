@@ -22,14 +22,14 @@ cargo run
 
 ## Controls
 use mumberpad to move <br>
-press E to open the inventory
+press E to open the inventory <br>
 *more controls to come*
 
 ## Contributing
 Contributions to this project are welcome! If you're interested in helping out, feel free to open issues or pull requests. Since this is a hobby project, development might be sporadic, but any help is appreciated.
 
 ## License
-This project is licensed under the [MIT License](https://github.com/jossse69/roguelike_project/blob/main/LICENSE). <br>
+This project is licensed under the [MIT License](https://github.com/jossse69/roguelike_project/blob/master/LICENSE). <br>
 
 ## Acknowledgements
 The game is built using the bracket-lib library. Check it out [here](https://github.com/amethyst/bracket-lib). <br>
