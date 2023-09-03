@@ -4,7 +4,7 @@ use bracket_lib::prelude::*;
 use crate::entity::Entity;
 use crate::item::Item;
 use crate::map::{Map, self, TileType};
-use crate::ui::{UI, PopupWindow};
+use crate::ui::{UI, PopupWindow, self};
 
 pub struct Player {
     pub entity: Entity,
@@ -56,8 +56,8 @@ impl Player {
                 VirtualKeyCode::Numpad3 => self.move_by(1, 1, map),
                 VirtualKeyCode::E => self.open_inventory(ui),
                 // Add more keybindings for item selection and inspection
-                VirtualKeyCode::Up => self.select_previous_item(),
-                VirtualKeyCode::Down => self.select_next_item(),
+                VirtualKeyCode::Up => self.select_previous_item(ui),
+                VirtualKeyCode::Down => self.select_next_item(ui),
                 VirtualKeyCode::I => self.inspect_selected_item(ui, ctx),
                 _ => {}
             }
@@ -76,31 +76,44 @@ impl Player {
     }
 
     fn open_inventory(&mut self, ui: &mut UI) {
-        let mut inventory_popup = PopupWindow::new(10, 10, 40, 20, "Inventory");
-
+        // Create an inventory popup
+        ui.create_popup(10, 10, 40, 20, "Inventory");
+    
         // Add inventory items to the popup content
-        for item in &self.inventory {
-            inventory_popup.add_content(&item.data.name);
+        for (index, item) in self.inventory.iter().enumerate() {
+            if let Some(active_popup_index) = ui.active_popup {
+                if let Some(popup) = ui.popup_windows.get_mut(active_popup_index) {
+                    // Add arrow symbol for the selected item
+                    let content = if Some(index) == self.selected_item {
+                        format!("> {}", &item.data.name)
+                    } else {
+                        item.data.name.clone()
+                    };
+                    popup.add_content(&content);
+                }
+            }
         }
-
+    
         // Update the selected item to the first item in the inventory
         self.selected_item = Some(0);
-
-        ui.popup_windows.push(inventory_popup);
     }
 
-    fn select_previous_item(&mut self) {
+    fn select_previous_item(&mut self, ui: &mut UI) {
         if let Some(selected_item) = self.selected_item {
             if selected_item > 0 {
                 self.selected_item = Some(selected_item - 1);
+                // update iventory popup
+                self.update_inventory(ui);
             }
         }
     }
 
-    fn select_next_item(&mut self) {
+    fn select_next_item(&mut self, ui: &mut UI) {
         if let Some(selected_item) = self.selected_item {
             if selected_item < self.inventory.len() - 1 {
                 self.selected_item = Some(selected_item + 1);
+                // update iventory popup
+                self.update_inventory(ui);
             }
         }
     }
@@ -109,6 +122,27 @@ impl Player {
         if let Some(selected_item) = self.selected_item {
             if let Some(item) = self.inventory.get(selected_item) {
                 item.inspect(ctx, ui);
+            }
+        }
+    }
+
+    fn update_inventory(&mut self, ui: &mut UI) {
+        // TODO: add arrow to inventory item to show its selected in the popup
+        
+        // Update the inventory popup content with arrow symbol for the selected item
+        if let Some(selected_item) = self.selected_item {
+            if let Some(active_popup_index) = ui.active_popup {
+                if let Some(popup) = ui.popup_windows.get_mut(active_popup_index) {
+                    for (index, content) in popup.content.iter_mut().enumerate() {
+                        if index == selected_item {
+                            // Add arrow symbol to the selected item
+                            *content = format!("> {}", content);
+                        } else {
+                            // Remove arrow symbol from other items
+                            *content = content.trim_start_matches("> ").to_string();
+                        }
+                    }
+                }
             }
         }
     }

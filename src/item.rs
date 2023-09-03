@@ -60,14 +60,19 @@ impl Item {
 
     pub fn inspect(&self, ctx: &mut BTerm, ui: &mut UI) {
         // Create a new popup window
-        let mut popup = PopupWindow::new(20, 10, 40, 20, "Item Description");
+        ui.create_popup(10, 10, 40, 20, "Item Inspection");
     
-        // Add the item's description to the popup window content
-        popup.add_content(&self.data.description);
-    
-        // Add the popup window to the UI
-        ui.create_popup(20, 10, 40, 20, "Item Description");
-        ui.popup_windows.push(popup);
+        // Add item inspection content to the popup
+        if let Some(active_popup_index) = ui.active_popup {
+            if let Some(popup) = ui.popup_windows.get_mut(active_popup_index) {
+                popup.add_content(&self.data.name);
+
+                //separetor
+                popup.add_content("────────────");
+
+                popup.add_content(&self.data.description);
+            }
+        }
     }
 
     // Implement item-specific methods here
