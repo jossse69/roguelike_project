@@ -23,6 +23,8 @@ cargo run
 ## Controls
 use mumberpad to move <br>
 press E to open the inventory <br>
+press I to inspect an item in your inventory <br>
+press ESC to exit (a pop-up or just close the game) <br>
 *more controls to come*
 
 ## Contributing
