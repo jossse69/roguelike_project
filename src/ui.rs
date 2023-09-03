@@ -49,11 +49,14 @@ impl UI {
 
     pub fn remove_active_popup(&mut self) {
         if let Some(active_popup_index) = self.active_popup {
-            self.popup_windows.remove(active_popup_index);
-            //set the active popup to previous popup
-            self.active_popup = self.previous_popup
+            if active_popup_index < self.popup_windows.len() {
+                self.popup_windows.swap_remove(active_popup_index);
+                // Set the active popup to the previous popup aselse we cant return to the previous popup (if there is one)
+                self.active_popup = self.previous_popup
+            }
         }
     }
+    
 
 
     pub fn remove_popup(&mut self, index: usize) {
