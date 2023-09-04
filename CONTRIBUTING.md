@@ -1,6 +1,6 @@
-# Contributing to roguelike_project
+# Contributing to roguelike project
 
-Welcome to roguelike_project We're thrilled that you're interested in contributing. Before you get started, please take a moment to review this guide, which outlines the contribution process and provides some helpful tips.
+Welcome to roguelike project We're thrilled that you're interested in contributing. Before you get started, please take a moment to review this guide, which outlines the contribution process and provides some helpful tips.
 
 ## Table of Contents
 - [Getting Started](#getting-started)
@@ -58,4 +58,4 @@ Please follow the coding style and conventions used in this project. If you're u
 
 By contributing to this project, you agree that your contributions will be licensed under the project's [LICENSE](LICENSE.md).
 
-Thank you for considering contributing to roguelike_project! Your help is greatly appreciated.
+Thank you for considering contributing to roguelike project! Your help is greatly appreciated.
