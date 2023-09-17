@@ -15,6 +15,7 @@ pub struct Player {
     pub thirst: i32,
     pub inventory: Vec<Item>,
     pub selected_item: Option<usize>, // Track the selected inventory item
+    pub inventory_is_open: bool,
 }
 
 impl Player {
@@ -35,6 +36,7 @@ impl Player {
             thirst: 100,
             inventory: inv,
             selected_item: Some(0), // Select the first item by default
+            inventory_is_open: false,
         }
     }
 
@@ -96,6 +98,7 @@ impl Player {
     
         // Update the selected item to the first item in the inventory
         self.selected_item = Some(0);
+        
     }
 
     fn select_previous_item(&mut self, ui: &mut UI) {
@@ -121,6 +124,12 @@ impl Player {
     fn inspect_selected_item(&self, ui: &mut UI, ctx: &mut BTerm) {
         if let Some(selected_item) = self.selected_item {
             if let Some(item) = self.inventory.get(selected_item) {
+
+                // iventory is closed, skip
+                if !self.inventory_is_open {
+                    return;
+                }
+
                 item.inspect(ctx, ui);
             }
         }
@@ -129,6 +138,9 @@ impl Player {
     fn update_inventory(&mut self, ui: &mut UI) {
         // TODO: add arrow to inventory item to show its selected in the popup
         
+        // update iventory bool
+        self.inventory_is_open = ui.active_popup.is_some();
+
         // Update the inventory popup content with arrow symbol for the selected item
         if let Some(selected_item) = self.selected_item {
             if let Some(active_popup_index) = ui.active_popup {

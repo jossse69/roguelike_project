@@ -1,42 +1,63 @@
-// main.rs
-
 mod entity;
 mod player;
 mod ui;
-mod mobs;
+mod mob;
 mod map;
 mod progen;
-mod item;  // Import the item module
+mod item;
 mod ui_component;
+mod mobs_loader;
 
 use bracket_lib::{prelude::*, color};
 use entity::Entity;
-use mobs::Mob;
+use mob::Mob;
+use mobs_loader::MobLoader;
 use player::Player;
 use ui::UI;
 use map::{Map, TileType, SCREEN_WIDTH};
-use item::Item;  // Import the Item struct
-
+use item::Item;
+use rand::Rng;
 struct State {
     player: Player,
     ui: UI,
-    mobs: Vec<Mob>,
+    mobs: Vec<Mob>, // Add a vector to store mobs
     map: Map,
-    items: Vec<Item>,  // Add items vector
+    items: Vec<Item>,
 }
 
 impl State {
     fn new() -> Self {
         let mut mobs = Vec::new();
+        let mut rng = rand::thread_rng();
 
-        if let Ok(goblin) = Mob::new(20, 10, "data/mobs/goblin.json") {
-            mobs.push(goblin);
-        }
+        // Initialize the MobLoader and load mobs
+        let mob_loader = MobLoader::new();
+        let loaded_mobs = mob_loader.load_mobs();
+
+        // Add loaded mobs to the vector
+        mobs.extend(loaded_mobs);
 
         let mut map = Map::new(map::SCREEN_WIDTH as i32, map::SCREEN_HEIGHT as i32);
-        
+
         // Generate the dungeon map
         progen::generate_dungeon(&mut map);
+
+        for mob in mobs.iter_mut() {
+            // loop until it finds a random tile that is a walkable tile
+            let mut found = false;
+            while !found {
+                let x = rng.gen_range(0..map.width);
+                let y = rng.gen_range(0..map.height);
+        
+                // Check if the tile is walkable
+                if map.get_tile(x, y) == TileType::Floor {
+                    found = true;
+                    // Place the mob
+                    mob.entity.x = x;
+                    mob.entity.y = y;
+                }
+            }
+        }
 
         // Find the up stairs to place the player
         let mut player_loc = Point::new(0, 0);
@@ -58,38 +79,37 @@ impl State {
             ui: UI::new(),
             mobs,
             map,
-            items,  // Initialize the items vector
+            items,
         }
     }
 }
 
+
 impl GameState for State {
     fn tick(&mut self, ctx: &mut BTerm) {
-
         self.player.update(ctx, &mut self.map, &mut self.ui);
         self.map.update_fov(self.player.entity.x, self.player.entity.y);
         ctx.cls();
         self.ui.add_message("Hello world!");
-
+    
         self.map.render(ctx);
-
+    
         // Draw items
         for item in &self.items {
             item.draw(ctx, &self.map);
         }
-
-        // Draw mobs
-        for mob in &self.mobs {
+    
+        // Draw and execute mobs 
+        for mob in &mut self.mobs {
+            mob.execute_ai();
             mob.draw(ctx, &self.map);
         }
+    
         self.player.draw(ctx, &self.map);
-
-        
-
+    
         self.ui.draw(ctx, &self.player);
     }
 }
-
 fn main() -> BError {
     let context = BTermBuilder::simple80x50()
         .with_title("Roguelike Game")

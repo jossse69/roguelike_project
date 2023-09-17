@@ -8,6 +8,7 @@ pub struct UI {
     pub message_log: Vec<String>,
     pub popup_windows: Vec<PopupWindow>,
     pub active_popup: Option<usize>, // Track the index of the active popup, if any
+    pub active_popup_index: Option<usize>,
     pub previous_popup: Option<usize>,
 }
 
@@ -18,6 +19,7 @@ impl UI {
             popup_windows: Vec::new(),
             active_popup: None,
             previous_popup: None,
+            active_popup_index: None,
         }
     }
 
@@ -45,6 +47,9 @@ impl UI {
 
         // Set the active popup to the newly created one
         self.active_popup = Some(self.popup_windows.len() - 1);
+
+        // Set the active popup index to the newly created one
+        self.active_popup_index = Some(self.active_popup.unwrap());
     }
 
     pub fn remove_active_popup(&mut self) {
@@ -52,7 +57,9 @@ impl UI {
             if active_popup_index < self.popup_windows.len() {
                 self.popup_windows.swap_remove(active_popup_index);
                 // Set the active popup to the previous popup aselse we cant return to the previous popup (if there is one)
-                self.active_popup = self.previous_popup
+                self.active_popup = self.previous_popup;
+                // Set the active popup index to the previous popup aselse we cant return to the previous popup (if there is one)
+                self.active_popup_index = self.previous_popup
             }
         }
     }
